@@ -1,0 +1,8 @@
+[project]
+name = "weasyprint-celery"
+version = "1.0.0"
+description = "Flask, weasyprint, and celery example"
+dependencies = [
+    "flask",
+    "celery",
+]

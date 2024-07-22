@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Generation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Generation Test</h1>
+        <form id="pdf-form">
+            <textarea id="html-content" rows="10" cols="50" placeholder="Enter HTML content here..."></textarea>
+            <br>
+            <button type="button" onclick="generatePdf()">Generate PDF</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        function generatePdf() {
+            const htmlContent = document.getElementById('html-content').value;
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ html: htmlContent })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.task_id) {
+                    document.getElementById('result').innerText = `PDF generation task created with ID: ${data.task_id}`;
+                } else {
+                    document.getElementById('result').innerText = 'Error: ' + data.error;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result').innerText = 'Error: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>
